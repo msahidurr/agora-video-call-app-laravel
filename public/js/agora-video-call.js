@@ -115,10 +115,10 @@ btnPlug.click(function() {
         $(this).addClass('fas fa-phone');
         $(this).removeClass('fa-window-close');
         $(this).css('color', 'black');
-
         rtc.client.leave();
         stopVideo();
         stopAudio();
+        $(".video-call").addClass('d-none');
     }
 });
 
