@@ -8,10 +8,16 @@
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             @foreach ($users as $user)
+                @php
+                    $channelName = str_replace(' ', '-', auth()->user()->id);
+                    $channelName .= "-channel-";
+                    $channelName .= $user->id;
+                @endphp
+
                 <div class="card" style="width: 18rem;">
                     <div class="card-body">
                         <h5 class="card-title">Name: {{ $user->name }}</h5>
-                        <a href="#" class="btn btn-primary" onclick="callJoin(`{{ $user->id }}`)">Call</a>
+                        <a href="#" class="btn btn-primary" onclick="callJoin(`{{ $channelName }}`, `{{ $user->id }}`)">Call</a>
                     </div>
                 </div>
             @endforeach
@@ -37,15 +43,8 @@
                 token: "006ae90d8af316447888cdbfa82be5934eeIADsif6kHv4ir/+/RiAEMKC2Nv4VmXZ5Ne7GaPCjga5daVlfNPUAAAAAIgBVMgEAV1QfZwQAAQDnEB5nAwDnEB5nAgDnEB5nBADnEB5n",
             }
 
-            async function callJoin(receiverUserId) {
+            async function callJoin(channelName, receiverUserId) {
                 $(".video-call").removeClass('d-none');
-
-                // let options = {
-                //     appId: 'ae90d8af316447888cdbfa82be5934ee',
-                //     channel: 'test-channel-1',
-                //     token: "006ae90d8af316447888cdbfa82be5934eeIADsif6kHv4ir/+/RiAEMKC2Nv4VmXZ5Ne7GaPCjga5daVlfNPUAAAAAIgBVMgEAV1QfZwQAAQDnEB5nAwDnEB5nAgDnEB5nBADnEB5n",
-                // }
-                const channelName = 'test-channel-1'; // Unique channel name
                 
                 // Fetch token from Laravel backend
                 const tokenResponse = await fetch('/agora-token', {
@@ -64,8 +63,6 @@
 
                 options.channel = channelName
                 options.token = token
-
-                // await startVideo();
             };
         </script>
         <script src="{{ asset('js/agora-video-call.js') }}?v=0.1"></script>
