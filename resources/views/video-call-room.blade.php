@@ -23,7 +23,7 @@
             const TOKEN = sessionStorage.getItem('token');
 
             let options = {
-                appId: 'ae90d8af316447888cdbfa82be5934ee',
+                appId: `{{env('AGORA_APP_ID')}}`,
                 channel: `{{ request()->channel }}`,
                 token: TOKEN,
             }

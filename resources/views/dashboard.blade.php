@@ -38,9 +38,9 @@
     @push('script')
         <script>
             let options = {
-                appId: 'ae90d8af316447888cdbfa82be5934ee',
-                channel: 'test-channel-1',
-                token: "006ae90d8af316447888cdbfa82be5934eeIADsif6kHv4ir/+/RiAEMKC2Nv4VmXZ5Ne7GaPCjga5daVlfNPUAAAAAIgBVMgEAV1QfZwQAAQDnEB5nAwDnEB5nAgDnEB5nBADnEB5n",
+                appId: `{{env('AGORA_APP_ID')}}`,
+                channel: null,
+                token: null,
             }
 
             async function callJoin(channelName, receiverUserId) {
