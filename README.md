@@ -60,8 +60,3 @@ password: 123456
 email: testthree@example.com
 password: 123456
 ```
-## Support Me
-
-If you find my work helpful, you can support me by buying me a coffee!
-
-[![Buy Me a Coffee](https://img.shields.io/badge/-Buy%20Me%20a%20Coffee-orange?style=flat&logo=buymeacoffee)](https://buymeacoffee.com/msahidurr)

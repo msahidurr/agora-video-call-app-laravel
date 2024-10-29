@@ -5,10 +5,18 @@ namespace App\Http\Controllers\Agora;
 use Illuminate\Http\Request;
 use App\Classes\AgoraDynamicKey\RtcTokenBuilder;
 use App\Http\Controllers\Controller;
+use App\Services\FirebaseService;
 use Pusher\Pusher;
 
 class AgoraController extends Controller
 {
+    protected $firebaseService;
+
+    public function __construct(FirebaseService $firebaseService)
+    {
+        $this->firebaseService = $firebaseService;
+    }
+
     public function generateToken(Request $request)
     {
         $appID = env('AGORA_APP_ID');
