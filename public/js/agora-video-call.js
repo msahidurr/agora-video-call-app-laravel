@@ -44,31 +44,36 @@ async function startOneToOneVideoCall() {
                 remoteAudioTrack.play()
             }
         });
+
+        rtc.client.on('user-left', function (user) {
+            console.log('User ' + user.uid + ' has left the channel');
+            alert('User has left the call');
+        });
     });
 }
 
 const startVideo = async() => {
     rtc.localVideoTrack = await AgoraRTC.createCameraVideoTrack();
-    rtc.client.publish(rtc.localVideoTrack);
-    rtc.localVideoTrack.play('local');
+    await rtc.client.publish(rtc.localVideoTrack);
+    await rtc.localVideoTrack.play('local');
 }
 
-const startAudio = async() => {
+const startAudio = async () => {
     rtc.localAudioTrack = await AgoraRTC.createMicrophoneAudioTrack();
-    rtc.client.publish(rtc.localAudioTrack);
-    rtc.localAudioTrack.play();
+    await rtc.client.publish(rtc.localAudioTrack);
+    await rtc.localAudioTrack.play();
 }
 
-const stopVideo = () => {
-    rtc.localVideoTrack.close();
-    rtc.localVideoTrack.stop();
-    rtc.client.unpublish(rtc.localVideoTrack);
+const stopVideo = async () => {
+    await rtc.localVideoTrack.close();
+    await rtc.localVideoTrack.stop();
+    await rtc.client.unpublish(rtc.localVideoTrack);
 }
 
-const stopAudio = () => {
-    rtc.localAudioTrack.close();
-    rtc.localAudioTrack.stop();
-    rtc.client.unpublish(rtc.localAudioTrack);
+const stopAudio = async () => {
+    await rtc.localAudioTrack.close();
+    await rtc.localAudioTrack.stop();
+    await rtc.client.unpublish(rtc.localAudioTrack);
 }
 //Toggle Camera
 
@@ -78,7 +83,6 @@ btnCam.click(function() {
         $(this).removeClass('fa-video-camera');
         $(this).css('color', 'red');
         stopVideo();
-
     } else {
         $(this).addClass('fa-video-camera');
         $(this).removeClass('fa-video-slash');
@@ -105,12 +109,12 @@ btnMic.click(function() {
 
 //Toggle Join and Leave
 
-btnPlug.click(function() {
+btnPlug.click(async function() {
     if ($(this).hasClass('fas fa-phone')) {
         $(this).addClass('fa-window-close');
         $(this).removeClass('fas fa-phone');
         $(this).css('color', 'red');
-        startOneToOneVideoCall();
+        await startOneToOneVideoCall();
     } else {
         $(this).addClass('fas fa-phone');
         $(this).removeClass('fa-window-close');
