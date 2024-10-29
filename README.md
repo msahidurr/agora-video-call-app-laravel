@@ -11,7 +11,7 @@ git clone https://github.com/msahidurr/agora-video-call-app-laravel.git && cd ag
 Install PHP dependencies:
 
 ```sh
-composer install
+composer install && npm install && npm run build
 ```
 
 Setup configuration:
@@ -44,6 +44,28 @@ Run database seeder:
 php artisan db:seed
 ```
 
+Add agora app id and app certificate in `.env` file:
+
+```sh
+AGORA_APP_ID=
+AGORA_APP_CERTIFICATE=
+```
+
+If you are using web p2p call then you can integrate pusher credentials:
+
+```sh
+PUSHER_APP_ID=
+PUSHER_APP_KEY=
+PUSHER_APP_SECRET=
+PUSHER_APP_CLUSTER=
+```
+
+Or, if you are using web to mobile application then add the firebase_credentials.json on `.env` file:
+
+```sh
+FIREBASE_CREDENTIALS=storage/app/firebase/firebase_credentials.json
+```
+
 Test user:
 
 ```sh
@@ -60,3 +82,7 @@ password: 123456
 email: testthree@example.com
 password: 123456
 ```
+
+## Support Me
+If you find my work helpful, you can support me by buying me a coffee!
+[![Buy Me a Coffee](https://img.shields.io/badge/-Buy%20Me%20a%20Coffee-orange?style=flat&logo=buymeacoffee)](https://buymeacoffee.com/msahidurr)

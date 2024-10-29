@@ -6,7 +6,7 @@
     </x-slot>
 
     <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+        <div class="d-flex max-w-7xl mx-auto sm:px-6 lg:px-8">
             @foreach ($users as $user)
                 @php
                     $channelName = str_replace(' ', '-', auth()->user()->id);
@@ -14,7 +14,7 @@
                     $channelName .= $user->id;
                 @endphp
 
-                <div class="card" style="width: 18rem;">
+                <div class="card" style="width: 18rem; margin-left:10px;">
                     <div class="card-body">
                         <h5 class="card-title">Name: {{ $user->name }}</h5>
                         <a href="#" class="btn btn-primary" onclick="callJoin(`{{ $channelName }}`, `{{ $user->id }}`)">Call</a>
@@ -36,6 +36,7 @@
     </div>
     
     @push('script')
+        <script src="{{ asset('js/agora-video-call.js') }}?v=0.1"></script>
         <script>
             let options = {
                 appId: `{{env('AGORA_APP_ID')}}`,
@@ -44,9 +45,6 @@
             }
 
             async function callJoin(channelName, receiverUserId) {
-                $(".video-call").removeClass('d-none');
-                
-                // Fetch token from Laravel backend
                 const tokenResponse = await fetch('/agora-token', {
                     method: 'POST',
                     headers: {
@@ -59,12 +57,21 @@
                     })
                 });
 
-                const { token } = await tokenResponse.json();
+                const { status, message, data } = await tokenResponse.json();
 
-                options.channel = channelName
-                options.token = token
+                if(status == true) {
+                    options.channel = channelName
+                    options.token = data.token
+                    
+                    $("#btnPlug").addClass('fa-window-close');
+                    $("#btnPlug").removeClass('fas fa-phone');
+                    $("#btnPlug").css('color', 'red');
+                    await startOneToOneVideoCall()
+                    $(".video-call").removeClass('d-none');
+                } else {
+                    alert(message)
+                }
             };
         </script>
-        <script src="{{ asset('js/agora-video-call.js') }}?v=0.1"></script>
     @endpush
 </x-app-layout>
